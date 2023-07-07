@@ -26,17 +26,30 @@ void parse_problem(const json& data, Problem& problem) {
     }
 }
 
-void print_point(const Point& point) {
-    std::cout << "(" << point.x << ", " << point.y << ")\n"; 
+static void print_point(const Point& point, bool newline) {
+    std::cout << "(" << point.x << ", " << point.y << ")"; 
+    if(newline) std::cout << "\n"; 
 }
 
 void print_problem(const Problem& problem) {
     std::cout << "room="; 
-    print_point(problem.room); 
+    print_point(problem.room, true); 
     std::cout << "stage="; 
-    print_point(problem.stage); 
+    print_point(problem.stage, true); 
     std::cout << "stage_bottom_left="; 
-    print_point(problem.stage_bottom_left); 
+    print_point(problem.stage_bottom_left, true); 
+    std::cout << "\nmusicians=[\n"; 
+    for(int i = 0; i < problem.musicians.size()-1; ++i) {
+        std::cout << problem.musicians[i] << ", "; 
+    }  
+    std::cout << problem.musicians[problem.musicians.size()-1] << "\n]\n"; 
+    std::cout << "\nattendees=[\n"; 
+    for(int i = 0; i < problem.attendees.size()-1; ++i) {
+        print_point(problem.attendees[i].location, false); 
+        std::cout << ", ";  
+    }
+    print_point(problem.attendees[problem.attendees.size()-1].location, false); 
+    std::cout << "\n]\n"; 
 }
 
 int main(int argc, char** argv) {

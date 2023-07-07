@@ -22,8 +22,6 @@ struct Problem {
 }; 
 
 void parse_problem(const json& data, Problem& problem); 
-
-void print_point(const Point& point); 
 void print_problem(const Problem& problem); 
 
 #endif 
