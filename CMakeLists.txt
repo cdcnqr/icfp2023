@@ -16,6 +16,8 @@ add_compile_options($<$<CONFIG:Debug>:-gdwarf-4> $<$<CONFIG:Release>:-O3>)
 
 target_link_libraries(icfp2023 sfml-graphics sfml-window sfml-system)
 
+# sudo apt-get install libsfml-dev
+
 # Configure debug build
 # cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Debug
 
