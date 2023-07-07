@@ -6,8 +6,8 @@
 class Optimizer {
   OptimizerState state;
 public:
-  Optimizer() :
-    state()
+  Optimizer(const Problem& problem) :
+    state(OptimizerState::grid_init_tag{}, problem)
   {
   }
 };
