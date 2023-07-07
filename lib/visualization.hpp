@@ -1,7 +1,7 @@
 #include "problem.hpp"
 #include <SFML/Graphics.hpp>
 
-inline void draw_problem(Problem &problem) {
+inline void draw_problem(Problem &problem, std::vector<Point> placements) {
     constexpr double width = 1000, height = 1000;
     sf::RenderWindow window(sf::VideoMode(width, height), "Problem");
     
@@ -22,6 +22,20 @@ inline void draw_problem(Problem &problem) {
         shape.setOrigin(shape.getRadius(), shape.getRadius()); // center of circle
         shape.setPosition(attendee.location.x * scale, attendee.location.y * scale);
         window.draw(shape);
+    }
+    
+    for (auto &p : placements) {
+        sf::CircleShape musician(10.f * scale);
+        musician.setFillColor(sf::Color(32, 240, 32));
+        musician.setOrigin(musician.getRadius(), musician.getRadius());
+        musician.setPosition(p.x * scale, p.y * scale);
+        window.draw(musician);
+
+        sf::CircleShape blocking(5.f * scale);
+        blocking.setFillColor(sf::Color(32, 32, 240));
+        blocking.setOrigin(blocking.getRadius(), blocking.getRadius()); // center of circle
+        blocking.setPosition(p.x * scale, p.y * scale);
+        window.draw(blocking);
     }
 
     while (window.isOpen()) {

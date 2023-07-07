@@ -6,8 +6,8 @@
 
 class GreedyOptimizer {
   const Problem &problem;
+public:
   std::vector<Point> placements;
-  
   inline GreedyOptimizer(const Problem &problem): problem(problem) {
     
   }
@@ -42,7 +42,7 @@ class GreedyOptimizer {
     int num_types = 0;
     for (int i : problem.musicians) {
       musician_types[i]++;
-      num_types = std::max(num_types, musician_types[i]);
+      num_types = std::max(num_types, i + 1);
     }
     
     std::vector<std::vector<std::vector<double>>> weight(num_types,
@@ -73,7 +73,7 @@ class GreedyOptimizer {
     auto comp = [](WeightSquare a, WeightSquare b) {
       return a.weight < b.weight;
     };
-    std::vector<std::priority_queue<WeightSquare, std::vector<WeightSquare>, decltype(comp)>> sorted;
+    std::vector<std::priority_queue<WeightSquare, std::vector<WeightSquare>, decltype(comp)>> sorted(num_types);
     for (int x=0; x<grid_nx; x++) {
       for (int y=0; y<grid_ny; y++) {
         for (int t=0; t<num_types; t++) {

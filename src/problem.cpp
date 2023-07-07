@@ -2,6 +2,10 @@
 #include <iostream>
 #include <string>
 #include "../lib/problem.hpp"
+#include "solution.hpp"
+#include "visualization.hpp"
+
+#include "greedy_optimizer.hpp"
 
 void parse_problem(const json& data, Problem& problem) {
     data.at("room_width").get_to(problem.room.x); 
@@ -48,4 +52,19 @@ int main(int argc, char** argv) {
     Problem problem; 
     parse_problem(data, problem); 
     print_problem(problem); 
+    
+    GreedyOptimizer opt(problem);
+    opt.optimize();
+    
+    draw_problem(problem, opt.placements);
+
+    Solution sol; 
+    sol.problem_id = 1; 
+    sol.placements.resize(50); 
+    for(int i = 0; i < 50; ++i) {
+       sol.placements[i] = Point{ 5.0*i, 5.0*i };
+    }
+    json output; 
+    unprase_solution(sol, output); 
+    std::cout << output.dump() << "\n"; 
 }

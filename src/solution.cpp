@@ -14,6 +14,7 @@ void unprase_solution(const Solution& solution, json& output) {
     output["contents"] = contents.dump(); 
 }
 
+/*
 int main() {
     Solution sol; 
     sol.problem_id = 1; 
@@ -25,3 +26,4 @@ int main() {
     unprase_solution(sol, output); 
     std::cout << output.dump() << "\n"; 
 }
+*/
