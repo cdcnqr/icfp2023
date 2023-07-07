@@ -20,10 +20,11 @@ using Traits_2 = CGAL::Arr_circle_segment_traits_2<Kernel>;
 using Curve_2 = Traits_2::Curve_2;
 
 using Res_Point_2 = Traits_2::Point_2;
-using SqrtKernel = CGAL::Filtered_kernel<CGAL::Cartesian<CGAL::Sqrt_extension<Kernel::FT, Kernel::FT, CGAL::Tag_true, CGAL::Tag_true>>>;
+using SqrtT = CGAL::Sqrt_extension<Kernel::FT, Kernel::FT, CGAL::Tag_true, CGAL::Tag_true>;
+using SqrtKernel = CGAL::Filtered_kernel<CGAL::Cartesian<SqrtT>>;
 using SqrtPoint_2 = SqrtKernel::Point_2;
-using SqrtSegment_2 = SqrtKernel::Point_2;
-using SqrtDirection_2 = SqrtKernel::Point_2;
+using SqrtSegment_2 = SqrtKernel::Segment_2;
+using SqrtDirection_2 = SqrtKernel::Direction_2;
 
 class OptimizerState {
   static constexpr double EPS = 1e-4;
@@ -77,9 +78,9 @@ uint64_t OptimizerState::calc_cost() {
     CGAL::compute_intersection_points(curves.begin(), curves.end(),
         std::back_inserter(raw_pts));
 
-    std::vector<std::tuple<SqrtDirection_2, SqrtKernel::FT, int>> vision_pts;
+    std::vector<std::tuple<SqrtDirection_2, SqrtT, int>> vision_pts;
 
-    SqrtPoint_2 a_sqrt = CGAL::Cartesian_converter<Kernel, SqrtKernel>()(a);
+    SqrtPoint_2 a_sqrt{a.x(), a.y()};
 
     for (int i = 0; i < problem.musicians.size(); ++i) {
       const auto& raw_b = placements[i];
@@ -87,15 +88,16 @@ uint64_t OptimizerState::calc_cost() {
       Curve_2 vision_curves[] = {{a, b}, {b, 5}};
       std::array<Res_Point_2, 1> raw_pt;
       CGAL::compute_intersection_points(std::begin(vision_curves), std::end(vision_curves), raw_pt.begin());
-      SqrtPoint_2 pt = {raw_pt[0].x(), raw_pt[0].y()};
+      SqrtPoint_2 pt{raw_pt[0].x(), raw_pt[0].y()};
       vision_pts.push_back({SqrtDirection_2{SqrtSegment_2{a_sqrt, pt}}, CGAL::squared_distance(a_sqrt, pt), i});
     }
 
     for (const auto& raw_pt : raw_pts) {
       SqrtPoint_2 pt{raw_pt.x(), raw_pt.y()};
-      if (pt == a_sqrt) continue;
+//      if (pt == a_sqrt) continue;
       vision_pts.push_back({SqrtDirection_2{SqrtSegment_2{a_sqrt, pt}}, CGAL::squared_distance(a_sqrt, pt), problem.musicians.size()});
     }
+    /*
     std::sort(vision_pts.begin(), vision_pts.end());
 
     bool visible = true;
@@ -115,6 +117,7 @@ uint64_t OptimizerState::calc_cost() {
         score += std::ceil(1000000 * attendee.tastes[problem.musicians[idx]] / CGAL::to_double(CGAL::squared_distance(a, b)));
       }
     }
+    */
   }
   return score;
 }
