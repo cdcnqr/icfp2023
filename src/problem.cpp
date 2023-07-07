@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include "../lib/problem.hpp"
-#include "visualization.hpp"
 
 void parse_problem(const json& data, Problem& problem) {
     data.at("room_width").get_to(problem.room.x); 
@@ -27,30 +26,19 @@ void parse_problem(const json& data, Problem& problem) {
     }
 }
 
-static void print_point(const Point& point, bool newline) {
-    std::cout << "(" << point.x << ", " << point.y << ")"; 
-    if(newline) std::cout << "\n"; 
+static void print_point(const Point& point) {
+    std::cout << "(" << point.x << ", " << point.y << ")\n"; 
 }
 
 void print_problem(const Problem& problem) {
     std::cout << "room="; 
-    print_point(problem.room, true); 
+    print_point(problem.room); 
     std::cout << "stage="; 
-    print_point(problem.stage, true); 
+    print_point(problem.stage); 
     std::cout << "stage_bottom_left="; 
-    print_point(problem.stage_bottom_left, true); 
-    std::cout << "\nmusicians=[\n"; 
-    for(int i = 0; i < problem.musicians.size()-1; ++i) {
-        std::cout << problem.musicians[i] << ", "; 
-    }  
-    std::cout << problem.musicians[problem.musicians.size()-1] << "\n]\n"; 
-    std::cout << "\nattendees=[\n"; 
-    for(int i = 0; i < problem.attendees.size()-1; ++i) {
-        print_point(problem.attendees[i].location, false); 
-        std::cout << ", ";  
-    }
-    print_point(problem.attendees[problem.attendees.size()-1].location, false); 
-    std::cout << "\n]\n"; 
+    print_point(problem.stage_bottom_left); 
+    std::cout << "musicians no.=" << problem.musicians.size() << "\n"; 
+    std::cout << "attendees no.=" << problem.attendees.size() << "\n";   
 }
 
 int main(int argc, char** argv) {
@@ -60,6 +48,4 @@ int main(int argc, char** argv) {
     Problem problem; 
     parse_problem(data, problem); 
     print_problem(problem); 
-    
-    draw_problem(problem);
 }
