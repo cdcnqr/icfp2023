@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.18)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(ICFP2023 VERSION 1.0 DESCRIPTION "ICFP2023" LANGUAGES CXX)
 
@@ -8,12 +8,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 include_directories(lib)
 link_directories(lib)
 
-file(GLOB_RECURSE SOURCES "src/*.cpp" main.cpp)
 
-add_executable(icfp2023 ${SOURCES})
+add_executable(icfp2023 src/problem.cpp src/solution.cpp)
+add_executable(score_calc_test test/score_calc_test.cpp)
 
 add_compile_options($<$<CONFIG:Debug>:-gdwarf-4> $<$<CONFIG:Release>:-O3>)
 
+find_package(CGAL REQUIRED COMPONENTS Core)
+target_link_libraries(score_calc_test PRIVATE CGAL::CGAL CGAL::CGAL_Core )
 target_link_libraries(icfp2023 sfml-graphics sfml-window sfml-system)
 
 # sudo apt-get install libsfml-dev
