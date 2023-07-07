@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 
+#include <CGAL/Cartesian.h>
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Arr_circle_segment_traits_2.h>
 #include <CGAL/Surface_sweep_2_algorithms.h>
@@ -12,10 +13,17 @@
 
 using Kernel = CGAL::Exact_predicates_exact_constructions_kernel;
 using Point_2 = Kernel::Point_2;
+using Segment_2 = Kernel::Segment_2;
+using Direction_2 = Kernel::Direction_2;
+
 using Traits_2 = CGAL::Arr_circle_segment_traits_2<Kernel>;
 using Curve_2 = Traits_2::Curve_2;
-using Res_Point_2 = Traits_2::Point_2;
 
+using Res_Point_2 = Traits_2::Point_2;
+using SqrtKernel = CGAL::Filtered_kernel<CGAL::Cartesian<CGAL::Sqrt_extension<Kernel::FT, Kernel::FT, CGAL::Tag_true, CGAL::Tag_true>>>;
+using SqrtPoint_2 = SqrtKernel::Point_2;
+using SqrtSegment_2 = SqrtKernel::Point_2;
+using SqrtDirection_2 = SqrtKernel::Point_2;
 
 class OptimizerState {
   static constexpr double EPS = 1e-4;
@@ -66,6 +74,16 @@ double OptimizerState::calc_cost() {
     std::vector<Res_Point_2> pts;
     CGAL::compute_intersection_points(curves.begin(), curves.end(),
         std::back_inserter(pts));
+    std::sort(pts.begin(), pts.end(), [&](const auto& rpt1, const auto& rpt2){
+        SqrtPoint_2 pt1{rpt1.x(), rpt1.y()};
+        SqrtPoint_2 pt2{rpt2.x(), rpt2.y()};
+        return SqrtDirection_2{SqrtSegment_2{a, pt1}} < SqrtDirection_2{SqrtSegment_2{a, pt2}};
+        });
+    std::vector<int> placement_idx(problem.musicians.size());
+    std::iota(placement_idx.begin(), placement_idx.end(), 0);
+    std::sort(placement_idx.begin(), placement_idx.end(), [&](const auto& idx1, const auto& idx2){
+        return Direction_2{Segment_2{a, placement[idx1]}} < Direction_2{Segment_2{a, placement[idx2]}};
+        });
   }
 }
 
