@@ -1,11 +1,43 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include "../lib/problem.hpp"
-#include "solution.hpp"
-#include "visualization.hpp"
+#include <problem.hpp>
 
-#include "greedy_optimizer.hpp"
+#include <iostream>
+
+void to_json(json& j, const Attendee& p) {
+  j = json{
+    {"x", p.location.x},
+    {"y", p.location.y},
+    {"tastes", p.tastes}
+  };
+}
+
+void from_json(const json& j, Attendee& p) {
+  j.at("x").get_to(p.location.x);
+  j.at("y").get_to(p.location.y);
+  j.at("tastes").get_to(p.tastes);
+}
+
+void to_json(json& j, const Problem& p) {
+  j = json{
+    {"room_width", p.room.x},
+    {"room_height", p.room.y},
+    {"stage_width", p.stage.x},
+    {"stage_height", p.stage.y},
+    {"stage_bottom_left", std::vector<double>{p.stage_bottom_left.x, p.stage_bottom_left.y}},
+    {"musicians", p.musicians},
+    {"attendees", p.attendees}
+  };
+}
+
+void from_json(const json& j, Problem& p) {
+  j.at("room_width").get_to(p.room.x);
+  j.at("room_height").get_to(p.room.y);
+  j.at("stage_width").get_to(p.stage.x);
+  j.at("stage_height").get_to(p.stage.y);
+  j.at("stage_bottom_left")[0].get_to(p.stage_bottom_left.x);
+  j.at("stage_bottom_left")[1].get_to(p.stage_bottom_left.y);
+  j.at("musicians").get_to(p.musicians);
+  j.at("attendees").get_to(p.attendees);
+}
 
 void parse_problem(const json& data, Problem& problem) {
     data.at("room_width").get_to(problem.room.x); 
@@ -43,28 +75,4 @@ void print_problem(const Problem& problem) {
     print_point(problem.stage_bottom_left); 
     std::cout << "musicians no.=" << problem.musicians.size() << "\n"; 
     std::cout << "attendees no.=" << problem.attendees.size() << "\n";   
-}
-
-int main(int argc, char** argv) {
-    std::ifstream f (argv[1]); 
-    auto data_str = json::parse(f)["Success"].template get<std::string>(); 
-    auto data = json::parse(data_str); 
-    Problem problem; 
-    parse_problem(data, problem); 
-    print_problem(problem); 
-    
-    GreedyOptimizer opt(problem);
-    opt.optimize();
-    
-    draw_problem(problem, opt.placements);
-
-    Solution sol; 
-    sol.problem_id = 1; 
-    sol.placements.resize(50); 
-    for(int i = 0; i < 50; ++i) {
-       sol.placements[i] = Point{ 5.0*i, 5.0*i };
-    }
-    json output; 
-    unprase_solution(sol, output); 
-    std::cout << output.dump() << "\n"; 
 }

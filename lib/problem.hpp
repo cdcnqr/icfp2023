@@ -2,7 +2,7 @@
 #define STAGE_H
 
 #include <vector>
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 using json = nlohmann::json; 
 
 struct Point {
@@ -20,6 +20,12 @@ struct Problem {
     std::vector<int> musicians; 
     std::vector<Attendee> attendees; 
 }; 
+
+void to_json(json& j, const Attendee& p);
+void from_json(const json& j, Attendee& p);
+
+void to_json(json& j, const Problem& p);
+void from_json(const json& j, Problem& p);
 
 void parse_problem(const json& data, Problem& problem); 
 void print_problem(const Problem& problem); 
