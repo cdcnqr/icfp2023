@@ -22,14 +22,13 @@ Kernel::FT to_proper(SqrtExtT x) {
 OptimizerState::OptimizerState(grid_init_tag, const Problem& problem)
   : problem(problem)
 {
-  double inset = 10 * EPS;
+  double inset = 10 + EPS;
   double grid_minx = problem.stage_bottom_left.x + inset;
   double grid_miny = problem.stage_bottom_left.y + inset;
   double grid_w = problem.stage.x - 2 * inset;
   double grid_h = problem.stage.y - 2 * inset;
-  double grid_a = grid_w * grid_h;
-  int grid_nx = std::ceil(problem.musicians.size() * grid_w / grid_a);
-  int grid_ny = std::ceil(problem.musicians.size() * grid_h / grid_a);
+  int grid_nx = std::ceil(problem.musicians.size() * grid_w / grid_h);
+  int grid_ny = std::ceil(problem.musicians.size() * grid_h / grid_w);
   double grid_dx = grid_nx == 1 ? 0 : grid_w / (grid_nx - 1);
   double grid_dy = grid_ny == 1 ? 0 : grid_h / (grid_ny - 1);
 
