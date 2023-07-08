@@ -27,8 +27,8 @@ OptimizerState::OptimizerState(grid_init_tag, const Problem& problem)
   double grid_miny = problem.stage_bottom_left.y + inset;
   double grid_w = problem.stage.x - 2 * inset;
   double grid_h = problem.stage.y - 2 * inset;
-  int grid_nx = std::ceil(problem.musicians.size() * grid_w / grid_h);
-  int grid_ny = std::ceil(problem.musicians.size() * grid_h / grid_w);
+  int grid_nx = std::ceil(std::sqrt(problem.musicians.size() * grid_w / grid_h));
+  int grid_ny = std::ceil(std::sqrt(problem.musicians.size() * grid_h / grid_w));
   double grid_dx = grid_nx == 1 ? 0 : grid_w / (grid_nx - 1);
   double grid_dy = grid_ny == 1 ? 0 : grid_h / (grid_ny - 1);
 
