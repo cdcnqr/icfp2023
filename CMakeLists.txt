@@ -8,14 +8,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 include_directories(lib)
 link_directories(lib)
 
-add_executable(icfp2023
-    src/problem.cpp
-    src/solution.cpp
-    src/optimizer_state.cpp
-    src/optimizer.cpp
-    src/cgal_calc.cpp
-    src/greedy_optimizer.cpp
-    src/visualization.cpp
+add_executable(icfp2023 
+  src/solver1.cpp
+  src/problem.cpp
+  src/solution.cpp
+  src/optimizer_state.cpp
+  src/optimizer.cpp
+  src/cgal_calc.cpp
+  src/greedy_optimizer.cpp
+  src/visualization.cpp
 )
 
 add_executable(score_calc_test
