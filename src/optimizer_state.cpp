@@ -58,8 +58,13 @@ uint64_t OptimizerState::calc_score() {
       curves.emplace_back(b, 5);
     }
     std::vector<Res_Point_2> raw_pts;
+
+    std::cout << "Computing intersections between " << curves.size() << " curves" << std::endl;
+
     CGAL::compute_intersection_points(curves.begin(), curves.end(),
         std::back_inserter(raw_pts));
+
+    std::cout << "Got " << raw_pts.size() << " intersections" << std::endl;
 
     std::vector<std::tuple<Direction_2, Kernel::FT, int>> vision_pts;
 
@@ -80,7 +85,10 @@ uint64_t OptimizerState::calc_score() {
       if (pt == a_sqrt) continue;
       vision_pts.push_back({Direction_2{Segment_2{a_sqrt, pt}}, CGAL::squared_distance(a_sqrt, pt), problem.musicians.size()});
     }
+
+    std::cout << "Sorting points" << std::endl;
     std::sort(vision_pts.begin(), vision_pts.end());
+    std::cout << "Done sorting points" << std::endl;
 
     bool visible = true;
     for (int i = 0; i < vision_pts.size(); ++i) {
@@ -105,4 +113,8 @@ uint64_t OptimizerState::calc_score() {
 
 void OptimizerState::set_placements(std::vector<Point> placements) {
   this->placements = placements;
+}
+
+const std::vector<Point>& OptimizerState::get_placements() {
+  return placements;
 }

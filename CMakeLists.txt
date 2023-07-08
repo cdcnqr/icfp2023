@@ -14,6 +14,13 @@ add_executable(icfp2023
   src/solution.cpp
 )
 
+add_executable(icfp2023_solver2
+  src/solver2.cpp
+  src/problem.cpp
+  src/optimizer.cpp
+  src/optimizer_state.cpp
+)
+
 add_executable(score_calc_test
   test/score_calc_test.cpp
   src/optimizer.cpp
@@ -25,6 +32,7 @@ add_compile_options($<$<CONFIG:Debug>:-gdwarf-4> $<$<CONFIG:Release>:-O3>)
 find_package(CGAL REQUIRED COMPONENTS Core)
 target_link_libraries(score_calc_test PRIVATE CGAL::CGAL CGAL::CGAL_Core)
 target_link_libraries(icfp2023 sfml-graphics sfml-window sfml-system)
+target_link_libraries(icfp2023_solver2 PRIVATE CGAL::CGAL CGAL::CGAL_Core sfml-graphics sfml-window sfml-system)
 
 # sudo apt-get install libsfml-dev
 
