@@ -1,4 +1,4 @@
-#include <optimizer.hpp>
+#include "optimizer.hpp"
 
 Optimizer::Optimizer(const Problem& problem)
   : state(OptimizerState::grid_init_tag{}, problem),

@@ -5,6 +5,8 @@
 #include <solution.hpp>
 #include <visualization.hpp>
 
+#include "cgal_calc.hpp"
+#include <optimizer.hpp>
 #include <greedy_optimizer.hpp>
 
 int main(int argc, char** argv) {
@@ -14,11 +16,19 @@ int main(int argc, char** argv) {
     Problem problem; 
     parse_problem(data, problem); 
     print_problem(problem); 
-    
-    GreedyOptimizer opt(problem);
-    opt.optimize();
-    
-    draw_problem(problem, opt.placements);
+
+    /*
+    GreedyOptimizer greedy_opt(problem);
+    greedy_opt.optimize();
+    draw_problem(problem, greedy_opt.placements);
+    greedy_opt.verify_placements();
+    std::cerr << "Getting current score" << std::endl;
+    std::cerr << calc_score(problem, greedy_opt.placements) << std::endl;
+    */
+
+    Optimizer opt(problem);
+    draw_problem(problem, opt.get_placements());
+    std::cerr << opt.current_score() << std::endl;
 
     Solution sol; 
     sol.problem_id = 1; 

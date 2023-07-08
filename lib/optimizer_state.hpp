@@ -23,6 +23,8 @@ public:
   struct grid_init_tag {};
   OptimizerState(grid_init_tag, const Problem& problem);
   uint64_t calc_score();
+
+  std::vector<Point> get_placements();
   void set_placements(std::vector<Point> placements);
   const std::vector<Point>& get_placements();
 
