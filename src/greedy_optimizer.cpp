@@ -99,6 +99,6 @@ bool GreedyOptimizer::verify_placements() {
       min_dist = std::fmin(min_dist, dist);
     }
   }
-  std::cout << "Min separation is " << min_dist << std::endl;
+  std::cerr << "Min separation is " << min_dist << std::endl;
   return true;
 }
