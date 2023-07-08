@@ -5,7 +5,9 @@
 #include "solution.hpp"
 #include "visualization.hpp"
 
+#include "optimizer.hpp"
 #include "greedy_optimizer.hpp"
+#include "cgal_calc.hpp"
 
 void parse_problem(const json& data, Problem& problem) {
     data.at("room_width").get_to(problem.room.x); 
@@ -53,10 +55,19 @@ int main(int argc, char** argv) {
     parse_problem(data, problem); 
     print_problem(problem); 
     
-    GreedyOptimizer opt(problem);
-    opt.optimize();
+    GreedyOptimizer greedy_opt(problem);
+    greedy_opt.optimize();
+    draw_problem(problem, greedy_opt.placements);
+    greedy_opt.verify_placements();
+    std::cout << "Getting current score" << std::endl;
+    std::cout << calc_score(problem, greedy_opt.placements) << std::endl;
     
-    draw_problem(problem, opt.placements);
+    /*
+    Optimizer opt(problem);
+    draw_problem(problem, opt.get_placements());
+    std::cout << "Getting current score" << std::endl;
+    std::cout << opt.current_score() << std::endl;
+    */
 
     Solution sol; 
     sol.problem_id = 1; 

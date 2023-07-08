@@ -8,7 +8,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 include_directories(lib)
 link_directories(lib)
 
-add_executable(icfp2023 src/problem.cpp src/solution.cpp)
+add_executable(icfp2023
+    src/problem.cpp
+    src/solution.cpp
+    src/optimizer_state.cpp
+    src/optimizer.cpp
+    src/cgal_calc.cpp
+    src/greedy_optimizer.cpp
+    src/visualization.cpp
+)
+
 add_executable(score_calc_test
   test/score_calc_test.cpp
   src/optimizer.cpp
@@ -19,7 +28,7 @@ add_compile_options($<$<CONFIG:Debug>:-gdwarf-4> $<$<CONFIG:Release>:-O3>)
 
 find_package(CGAL REQUIRED COMPONENTS Core)
 target_link_libraries(score_calc_test PRIVATE CGAL::CGAL CGAL::CGAL_Core)
-target_link_libraries(icfp2023 sfml-graphics sfml-window sfml-system)
+target_link_libraries(icfp2023 sfml-graphics sfml-window sfml-system CGAL::CGAL CGAL::CGAL_Core)
 
 # sudo apt-get install libsfml-dev
 
