@@ -1,6 +1,6 @@
 #include "visualization.hpp"
 
-void draw_problem(Problem &problem, std::vector<Point> placements) {
+void draw_problem(Problem &problem, const std::vector<Point> &placements) {
     constexpr double width = 1000, height = 1000;
     sf::RenderWindow window(sf::VideoMode(width, height), "Problem");
     

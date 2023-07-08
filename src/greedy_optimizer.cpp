@@ -71,6 +71,10 @@ void GreedyOptimizer::optimize() {
   }
 
   for (int t : problem.musicians) {
+    if (sorted[t].empty()) { // fail
+      placements.clear();
+      return;
+    }
     WeightSquare ws = sorted[t].top();
     sorted[t].pop();
     while (placed[ws.x][ws.y]) {
@@ -93,12 +97,12 @@ bool GreedyOptimizer::verify_placements() {
       double dy = placements[i].y - placements[j].y;
       double dist = std::sqrt(dx * dx + dy * dy);
       if (dist < min_musician_separation) {
-        std::cout << "Separation of " << min_dist << std::endl;
+        //std::cout << "Separation of " << min_dist << std::endl;
         return false;
       }
       min_dist = std::fmin(min_dist, dist);
     }
   }
-  std::cerr << "Min separation is " << min_dist << std::endl;
+  //std::cerr << "Min separation is " << min_dist << std::endl;
   return true;
 }

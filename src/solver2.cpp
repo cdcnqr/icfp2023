@@ -18,5 +18,5 @@ int main(int argc, char** argv) {
 
 //  std::cout << opt.current_score() << std::endl;
 
-  draw_problem(problem, opt.get_placements());
+  draw_problem(problem, opt.get_placements_ref());
 }

@@ -119,6 +119,6 @@ void OptimizerState::set_placements(std::vector<Point> placements) {
   this->placements = placements;
 }
 
-const std::vector<Point>& OptimizerState::get_placements() {
+const std::vector<Point>& OptimizerState::get_placements_ref() {
   return placements;
 }

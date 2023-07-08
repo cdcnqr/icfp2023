@@ -9,8 +9,12 @@ void Optimizer::set_placements(std::vector<Point> placements)
   state.set_placements(placements);
 }
 
-const std::vector<Point>& Optimizer::get_placements() {
+std::vector<Point> Optimizer::get_placements() {
   return state.get_placements();
+}
+
+const std::vector<Point>& Optimizer::get_placements_ref() {
+  return state.get_placements_ref();
 }
 
 uint64_t Optimizer::current_score() {

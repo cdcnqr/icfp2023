@@ -3,4 +3,4 @@
 #include "problem.hpp"
 #include <SFML/Graphics.hpp>
 
-void draw_problem(Problem &problem, std::vector<Point> placements);
+void draw_problem(Problem &problem, const std::vector<Point> &placements);

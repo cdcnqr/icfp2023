@@ -24,6 +24,7 @@ add_executable(icfp2023_solver2
   src/problem.cpp
   src/optimizer.cpp
   src/optimizer_state.cpp
+  src/visualization.cpp
 )
 
 add_executable(score_calc_test

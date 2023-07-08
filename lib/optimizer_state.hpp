@@ -26,7 +26,7 @@ public:
 
   std::vector<Point> get_placements();
   void set_placements(std::vector<Point> placements);
-  const std::vector<Point>& get_placements();
+  const std::vector<Point>& get_placements_ref();
 
   template <class RNG>
   void perturb(RNG& rng);

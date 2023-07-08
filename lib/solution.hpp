@@ -8,6 +8,6 @@ struct Solution {
     std::vector<Point> placements; 
 }; 
 
-void unprase_solution(const Solution& sol, json& output); 
+void unparse_solution(const Solution& sol, json& output); 
 
 #endif

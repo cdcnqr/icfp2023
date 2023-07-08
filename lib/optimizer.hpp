@@ -15,7 +15,7 @@ public:
 
   std::vector<Point> get_placements();
   void set_placements(std::vector<Point> placements);
-  const std::vector<Point>& get_placements();
+  const std::vector<Point>& get_placements_ref();
 
   uint64_t current_score();
   void optimize();
